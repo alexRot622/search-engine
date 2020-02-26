@@ -60,7 +60,7 @@ int searchDir(invertedIndex *index, char *dirname)
 
 float searchFile(char *str, char *filename)
 {
-    const static char separators[] = {" \n\t"};
+    static const char separators[] = {" \n\t"};
     static char buf[BUF_SIZE];
     char *tok;
     float found = 0, terms = 0;

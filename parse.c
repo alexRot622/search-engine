@@ -86,7 +86,7 @@ void addOperator(invertedIndex *index, TStack *operators, TStack *terms, char ne
     push(operators, newOp);
 }
 
-void closeParenthesis(invertedIndex *index, TStack *operators, TStack *terms)
+void closeParentheses(invertedIndex *index, TStack *operators, TStack *terms)
 {
     size_t first, second;
     char op;

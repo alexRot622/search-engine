@@ -41,7 +41,7 @@ void showResults(invertedIndex *index)
     }
     qsort(results, noFound, sizeof(TResult), resultComp);
     for(size_t i = 0; i < noFound; i++) {
-        printf("%s, tfidf = %f\n", results[i].filename, results[i].score);
+        printf("%s (tfidf = %f)\n", results[i].filename, results[i].score);
     }
     free(results);
 }
