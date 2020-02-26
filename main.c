@@ -38,8 +38,8 @@ int main(int argc, char *argv[])
         exit(-1);
     }
     for(size_t i = 0; i < index->noTerms; i++) {
-        index->found[i] = calloc(INDEX(index->noFiles), sizeof(size_t));
-        index->tfidf[i] = (float *) malloc(index->noFiles * sizeof(float *));
+        index->found[i] = (bitarray) calloc(INDEX(index->noFiles), sizeof(size_t));
+        index->tfidf[i] = (float *) calloc(index->noFiles, sizeof(float *));
     }
     
     if(searchDir(index, dirname)) {
