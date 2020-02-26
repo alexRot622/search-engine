@@ -13,10 +13,6 @@ int searchDir(invertedIndex *index, char *dirname)
     if(dir == NULL) {
         return -1;
     }
-    index->tfidf = (float **) malloc(index->noTerms * sizeof(float *));
-    for(size_t i = 0; i < index->noTerms; i++) {
-        index->tfidf[i] = (float *) malloc(index->noFiles * sizeof(float *));
-    }
     memset(filepath, 0, BUF_SIZE);
     noFile = 0;
     
@@ -40,7 +36,6 @@ int searchDir(invertedIndex *index, char *dirname)
                 if((tf = searchFile(index->terms[i], filepath))) {
                     SET_BIT(index->found[i], noFile);
                     index->tfidf[i][noFile] = tf;
-                    printf("DEBUG: found \"%s\" in file \"%s\"\n", index->terms[i], filepath);
                 }
             }
             noFile++;
@@ -53,7 +48,9 @@ int searchDir(invertedIndex *index, char *dirname)
         for(size_t j = 0; j < index->noFiles; j++) {
             idf += GET_BIT(index->found[i], j);
         }
-        idf = log2f(1 + index->noFiles / idf);
+        if(idf != 0) {
+            idf = log2f(1 + index->noFiles / idf);
+        }
         for(size_t j = 0; j < index->noFiles; j++) {
             index->tfidf[i][j] *= idf;    
         }
@@ -63,10 +60,11 @@ int searchDir(invertedIndex *index, char *dirname)
 
 float searchFile(char *str, char *filename)
 {
-    FILE *inFile;
-    static char buf[BUF_SIZE], separators[] = {" .,;!?\n"};
-    float found = 0, terms = 0;
+    const static char separators[] = {" \n\t"};
+    static char buf[BUF_SIZE];
     char *tok;
+    float found = 0, terms = 0;
+    FILE *inFile;
 
     inFile = fopen(filename, "r");
     if(inFile == NULL) {
@@ -112,6 +110,7 @@ char **getTerms(char *str, size_t *len)
         }
         (*len)++;
     }
+    /* reallocate the terms array so as to only have "len" elements */
     newTerms = realloc(terms, (*len) * sizeof(char *));
     if(newTerms == NULL) {
             printf("ERROR: could not allocate memory\n");

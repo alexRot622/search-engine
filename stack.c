@@ -6,12 +6,10 @@ TStack *allocStack(size_t maxSz)
 
     stack = (TStack *) malloc(sizeof(TStack));
     if(stack == NULL) {
-        /* DO SMTH */
         return NULL;
     }
     stack->arr = (char *) malloc(maxSz);
     if(stack->arr == NULL) {
-        /* DO SMTH */
         free(stack);
         return NULL;
     }
