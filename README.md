@@ -1,6 +1,6 @@
 # Open Source Search engine
 # Compilare
-  Pentru a compila codul sursa, folositi comanda make. Compilarea nu necesita biblioteci care nu se afla in standard.
+  Pentru a compila codul sursa, folositi comanda make. Sunt folosite biblioteci din standardul POSIX (dirent.h).
 # Utilizare
   ```bash
   ./search <DIRNAME> <STRING>
